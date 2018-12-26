@@ -24,17 +24,13 @@ class MainScreen extends React.Component<{}, State> {
         super(props);
 
         this.state = {
-            userCommands: null,
+            userCommands: [],
         };
 
         this.navigateToExecuteUserCommandsModal = this.navigateToExecuteUserCommandsModal.bind(this);
     }
 
     componentDidMount() {
-        this.getAllUserCommands()
-    }
-
-    componentDidUpdate() {
         this.getAllUserCommands()
     }
 

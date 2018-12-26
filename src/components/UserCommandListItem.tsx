@@ -19,8 +19,6 @@ type Props = {
     userCommand: UserCommand
 }
 
-moment.locale('nb')
-
 const UserCommandListItem = ({userCommand}: Props) => {
     return (
         <FlatCard style={ styles.container }>
@@ -28,7 +26,7 @@ const UserCommandListItem = ({userCommand}: Props) => {
                 <Text>{userCommand.type}</Text>
                 <Text>{userCommand.status}</Text>
             </View>
-            <Text>{moment(userCommand.startTime).locale('nb').format('dddd [kl.] HH:mm')}</Text>
+            <Text>{moment(userCommand.startTime).format('dddd [kl.] HH:mm')}</Text>
         </FlatCard>
     )
 };
