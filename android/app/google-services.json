@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "889695659002",
+    "firebase_url": "https://wallas.firebaseio.com",
+    "project_id": "wallas",
+    "storage_bucket": "wallas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889695659002:android:147de72d1ab1b23b",
+        "android_client_info": {
+          "package_name": "com.wallas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889695659002-6j88qk1knba4ia6n64fcitu7sgs2uk2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5y-l7HfPv6_vBrBsJ2txn9x0bP3Nw9Pw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
