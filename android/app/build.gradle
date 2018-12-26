@@ -98,7 +98,7 @@ android {
         config {
             keyAlias System.getProperty("APPCENTER_KEY_ALIAS")
             keyPassword System.getProperty("APPCENTER_KEY_PASSWORD")
-            storeFile file('/app/keystore.jks')
+            storeFile file('keystore.jks')
             storePassword System.getProperty("APPCENTER_KEYSTORE_PASSWORD")
         }
     }
