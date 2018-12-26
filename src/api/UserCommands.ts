@@ -1,5 +1,5 @@
+import Config from 'react-native-config'
 import {CommandType, UserCommand} from "../types";
-import {utc} from "moment";
 
 const baseUrl = 'https://api-walas.herokuapp.com';
 
@@ -14,8 +14,8 @@ const baseFetch = async (url: string, settings: any): Promise<any> => {
             ...settings,
             headers: {
                 ...settings.headers,
-                Authorization: '...'
-            }
+                Authorization: `${Config.API_USERNAME} ${Config.API_TOKEN}`
+              }
         });
         return response
     } catch (error) {
