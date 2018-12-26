@@ -1,10 +1,11 @@
 import React from 'react';
 import ExecuteUserCommandsModalBody from "./components/ExecuteUserCommandsModalBody";
-import {Button, View} from "react-native";
+import { View} from "react-native";
 import FlatCard from "./components/FlatCard";
 import {executeUserCommand} from "./api/UserCommands";
 import {CommandType} from "./types";
 import {Icon} from "react-native-elements";
+import { Button } from 'react-native-paper';
 
 
 const userCommands = ['Start', 'Endre temp', 'Stop'];
@@ -96,6 +97,7 @@ class ExecuteUserCommandsModal extends React.Component<{}, State> {
             console.log('Failed with error:', JSON.stringify(e))
         }
 
+        this.props.navigation.state.params.getAllUserCommands()
         this.navigateToMainScreen()
     }
 
@@ -125,10 +127,12 @@ class ExecuteUserCommandsModal extends React.Component<{}, State> {
                 <View style={styles.line} />
                 <FlatCard style={{alignItems: 'center'}}>
                     <Button
-                        onPress={this.executeUserCommands}
-                        color={'blue'}
-                        title={this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
-                    />
+                        mode="text"
+                        color="#3399FF"
+                        icon={this.state.isDatePickerVisible ? 'save' : 'send'}
+                        onPress={this.executeUserCommands}>
+                        {this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
+                    </Button>
                 </FlatCard>
             </View>
         );

@@ -1,16 +1,14 @@
 import * as React from 'react'
 import {Text, View} from 'react-native'
 import {UserCommand} from "../types";
-import FlatCard from "./FlatCard";
 import moment from "moment-timezone";
+import { Card } from 'react-native-paper';
+import { SwipeRow } from 'react-native-swipe-list-view';
 
 const styles = {
     container: {
-        alignItems: 'flex-start',
-        backgroundColor: 'white',
-        padding: 18,
-        flexDirection: 'row',
-        marginBottom: 12,
+        padding: 6,
+        margin: 6,
     },
 
 };
@@ -21,14 +19,16 @@ type Props = {
 
 const UserCommandListItem = ({userCommand}: Props) => {
     return (
-        <FlatCard style={ styles.container }>
-            <View style={{ flex: 1}}>
-                <Text>{userCommand.type}</Text>
-                <Text>{userCommand.status}</Text>
-            </View>
-            <Text>{moment(userCommand.startTime).format('dddd [kl.] HH:mm')}</Text>
-        </FlatCard>
-    )
+        <Card style={styles.container}>
+            <Card.Content style={{flexDirection:'row'}}>
+                <View style={{ flex: 1}}>
+                    <Text>{userCommand.type}</Text>
+                    <Text>{userCommand.status}</Text>
+                </View>
+                <Text>{moment(userCommand.startTime).format('dddd [kl.] HH:mm')}</Text>
+            </Card.Content>
+        </Card>
+    );
 };
 
 export default UserCommandListItem
