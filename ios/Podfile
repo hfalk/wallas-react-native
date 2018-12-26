@@ -1,0 +1,34 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'wallas' do
+  pod 'AppCenter/Crashes', '~> 1.12.0'
+  pod 'AppCenter/Analytics', '~> 1.12.0'
+  pod 'AppCenterReactNativeShared', '~> 1.11.0'
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for wallas
+
+  
+
+  platform :ios, '9.0'
+  target 'wallasTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'wallas-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for wallas-tvOS
+
+  target 'wallas-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
