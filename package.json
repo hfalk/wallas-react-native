@@ -1,0 +1,41 @@
+{
+  "name": "wallas",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "moment": "^2.23.0",
+    "moment-timezone": "^0.5.23",
+    "react": "16.6.3",
+    "react-native": "0.57.8",
+    "react-native-action-button": "^2.8.5",
+    "react-native-date-picker": "^2.2.1",
+    "react-native-elements": "^0.19.1",
+    "react-native-gesture-handler": "^1.0.12",
+    "react-native-modal": "^7.0.2",
+    "react-native-vector-icons": "^6.1.0",
+    "react-navigation": "^3.0.9"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.10",
+    "@types/react": "^16.7.18",
+    "@types/react-native": "^0.57.22",
+    "@types/react-navigation": "^3.0.1",
+    "@types/react-test-renderer": "^16.0.3",
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.6.3",
+    "tslint": "^5.12.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.2.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
