@@ -1,9 +1,10 @@
 import Config from 'react-native-config'
-import { CommandType, UserCommand } from '../types'
+import { CommandType, StatusMessage, UserCommand } from '../types'
 
 const baseUrl = 'https://api-walas.herokuapp.com'
 
 export const endpoints = {
+    statuses: () => `${baseUrl}/statuses`,
     userCommands: () => `${baseUrl}/commands`,
     userCommand: (id: Number) => `${baseUrl}/commands/${id}`,
 }
@@ -17,11 +18,40 @@ const baseFetch = async (url: string, settings: any): Promise<any> => {
                 Authorization: `${Config.API_USERNAME} ${Config.API_TOKEN}`,
             },
         })
-        return response
+        const responseObj = await jsonResponse(response)
+        if (response.status == 200) {
+            responseObj['success'] = true
+        }
+        return responseObj
     } catch (error) {
         console.warn(`[baseFetch] [URL: ${url}]`, error)
-        throw error
+        return {
+            success: false,
+            message: error,
+        }
     }
+}
+
+const jsonResponse = async (response: Response) => {
+    try {
+        return await response.json()
+    } catch (error) {
+        return {
+            status: response.status,
+        }
+    }
+}
+
+export function fetchAllStatusMessages(): Promise<StatusMessage[]> {
+    const url = endpoints.statuses()
+
+    return baseFetch(url, {
+        method: 'GET',
+    }).then(
+        (statuses: StatusMessage[]): StatusMessage[] => {
+            return statuses
+        },
+    )
 }
 
 export function fetchAllUserCommands(): Promise<UserCommand[]> {
@@ -29,19 +59,11 @@ export function fetchAllUserCommands(): Promise<UserCommand[]> {
 
     return baseFetch(url, {
         method: 'GET',
-    })
-        .then(
-            (response: any): any => {
-                console.log(response)
-                return response.json()
-            },
-        )
-        .then(
-            (userCommand: UserCommand[]): UserCommand[] => {
-                console.log(userCommand)
-                return userCommand
-            },
-        )
+    }).then(
+        (userCommand: UserCommand[]): UserCommand[] => {
+            return userCommand
+        },
+    )
 }
 
 export function deleteUserCommand(userCommandId: Number): Promise<UserCommand[]> {
