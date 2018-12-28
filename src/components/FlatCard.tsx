@@ -10,21 +10,17 @@ const styles = {
     bottomLine: {
         borderBottomColor: '#D9D9D9',
         borderBottomWidth: 1,
-    }
-};
+    },
+}
 
 type Props = {
-    children: React.ReactNode,
-    showBottomLine?: boolean,
-    style?: any,
+    children: React.ReactNode
+    showBottomLine?: boolean
+    style?: any
 }
 
 const FlatCard = ({ children, style, showBottomLine }: Props) => {
-    return (
-        <View style={ [styles.container, showBottomLine && styles.bottomLine, style ] }>
-            { children }
-        </View>
-    )
-};
+    return <View style={[styles.container, showBottomLine && styles.bottomLine, style]}>{children}</View>
+}
 
 export default FlatCard

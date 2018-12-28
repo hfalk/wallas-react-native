@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const text = {
     defaults: {
@@ -20,7 +20,7 @@ const text = {
     large: {
         fontSize: 26,
     },
-};
+}
 
 export default StyleSheet.create({
     smallText: {
