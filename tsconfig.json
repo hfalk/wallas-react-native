@@ -1,15 +1,30 @@
 {
   "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2017",                       /* ev. 'ESNEXT'. */
+    "module": "es2015",                       /* ev. 'ESNext'. */
+    "lib": [ "es2017" ],
     "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
+    // "skipLibCheck": true,                  /* Skip type checking of all declaration files. */
     "jsx": "react-native",
-    "lib": ["es6"],
-    "moduleResolution": "node",
     "noEmit": true,
+
+    /* Strict Type-Checking Options */
     "strict": true,
-    "target": "esnext"
+
+    /* Additional Checks */
+    "noUnusedLocals": true,                   /* Report errors on unused locals. */
+    "noUnusedParameters": true,               /* Report errors on unused parameters. */
+    "noImplicitReturns": true,                /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,       /* Report errors for fallthrough cases in switch statement. */
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "allowSyntheticDefaultImports": true,     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via
+    creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+
   },
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["index.js", "android", "ios", "build", "node_modules"]
 }
