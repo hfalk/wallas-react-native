@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         alignItems: 'flex-start',
         backgroundColor: 'white',
@@ -11,7 +11,7 @@ const styles = {
         borderBottomColor: '#D9D9D9',
         borderBottomWidth: 1,
     },
-}
+})
 
 type Props = {
     children: React.ReactNode

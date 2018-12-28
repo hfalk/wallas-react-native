@@ -1,17 +1,16 @@
 import * as React from 'react'
-import { Text, View } from 'react-native'
-import { SwipeRow } from 'react-native-swipe-list-view'
+import { StyleSheet, Text, View } from 'react-native'
 import { Card } from 'react-native-paper'
 import moment from 'moment-timezone'
 
 import { UserCommand } from '../types'
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         padding: 6,
         margin: 6,
     },
-}
+})
 
 type Props = {
     userCommand: UserCommand

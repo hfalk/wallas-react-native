@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity, RefreshControl } from 'react-native'
+import { View, TouchableOpacity, RefreshControl, StyleSheet } from 'react-native'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { FAB, IconButton } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
@@ -8,7 +8,7 @@ import { deleteUserCommand, fetchAllUserCommands } from './api/UserCommands'
 import { UserCommand } from './types'
 import UserCommandListItem from './components/UserCommandListItem'
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
@@ -29,7 +29,7 @@ const styles = {
         justifyContent: 'center',
         backgroundColor: 'red',
     },
-}
+})
 
 type Props = {
     navigation: NavigationScreenProp<NavigationState>

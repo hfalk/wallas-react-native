@@ -1,18 +1,18 @@
 import * as React from 'react'
-import { Text, Picker, Switch, View, ScrollView } from 'react-native'
+import { Text, Picker, Switch, View, ScrollView, StyleSheet } from 'react-native'
 import { ButtonGroup } from 'react-native-elements'
 import DatePicker from 'react-native-date-picker'
 
 import FlatCard from './FlatCard'
 import baseStyles from '../base-style'
 
-const styles = {
+const styles = StyleSheet.create({
     line: {
         width: '100%',
         borderBottomColor: '#D9D9D9',
         borderBottomWidth: 1,
     },
-}
+})
 
 type Props = {
     temperature: Array<number>

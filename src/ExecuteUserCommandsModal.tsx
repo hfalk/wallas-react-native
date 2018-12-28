@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Button } from 'react-native-paper'
 
 import { CommandType } from './types'
@@ -11,7 +11,7 @@ import FlatCard from './components/FlatCard'
 const userCommands = ['Start', 'Endre temp', 'Stop']
 const temperature = Array.from({ length: 16 }, (_, k) => 15 + k)
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
@@ -22,7 +22,7 @@ const styles = {
         borderBottomColor: '#D9D9D9',
         borderBottomWidth: 1,
     },
-}
+})
 
 type Props = {
     navigation: NavigationScreenProp<NavigationState>
