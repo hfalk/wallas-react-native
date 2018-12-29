@@ -36,9 +36,10 @@ export type StatusMessage = {
 }
 
 export type StatusMessageContent = {
-    heaterStatus: string
+    message: string
     readTemp: number
     setTemp: number
     volt: number
     rawValue: string
+    status: 'OK' | 'ERROR' | 'UNKNOWN'
 }

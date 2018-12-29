@@ -35,7 +35,7 @@ const StatusHeader = ({ status, isUpdating, updateStatusMessage }: Props) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Icon.Button name="info-with-circle" color="black" backgroundColor="white" />
                     <View>
-                        <Text>{`${status && status.content.heaterStatus} (${status && status.content.volt} V)`}</Text>
+                        <Text>{`${status && status.content.message} (${status && status.content.volt} V)`}</Text>
                         <Text>{`Nåværende temperatur: ${status && status.content.readTemp} °C`}</Text>
                         <Text>{`Satt temperatur: ${status && status.content.setTemp} °C`}</Text>
                     </View>
