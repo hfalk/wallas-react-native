@@ -42,7 +42,10 @@ const StatusHeader = ({ status, isUpdating, updateStatusMessage }: Props) => {
                 </View>
                 <View style={styles.bottomContainer}>
                     <Text style={styles.text}>
-                        {status && moment(status.createdTime).format('dddd [kl.] HH:mm, DD.MM')}
+                        {status &&
+                            moment(status.createdTime)
+                                .utcOffset('+0200')
+                                .format('dddd [kl.] HH:mm, DD.MM')}
                     </Text>
                     <Button
                         mode="text"

@@ -7,7 +7,7 @@ export type UserCommand = {
     startTime: Moment
     lastUpdatedTime?: Moment
     type: CommandType
-    temperature: Number
+    temperature?: Number
     status: CommandStatus
     messageId?: string
     pushNotificationId?: string
@@ -21,10 +21,10 @@ export enum CommandType {
 }
 
 export enum CommandStatus {
-    WAITING,
-    IN_PROGRESS,
-    FINISHED,
-    FAILED,
+    WAITING = 'WAITING',
+    IN_PROGRESS = 'IN_PROGRESS',
+    FINISHED = 'FINISHED',
+    FAILED = 'FAILED',
 }
 
 export type StatusMessage = {
