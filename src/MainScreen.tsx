@@ -1,7 +1,7 @@
 import React from 'react'
 import { RefreshControl, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
-import { FAB, IconButton } from 'react-native-paper'
+import { DefaultTheme, FAB, IconButton, ThemeShape } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
@@ -16,11 +16,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F8F8',
     },
     fab: {
-        position: 'absolute',
-        margin: 16,
-        right: 16,
-        bottom: 16,
-        backgroundColor: '#3399FF',
+        padding: 16,
     },
     deleteButtonContainer: {
         margin: 6,
@@ -41,6 +37,7 @@ type State = {
     userCommands: UserCommand[] | null
     isRefreshing: boolean
     isUpdatingStatusMessage: boolean
+    isFABOpen: boolean
 }
 
 class MainScreen extends React.Component<Props, State> {
@@ -52,6 +49,7 @@ class MainScreen extends React.Component<Props, State> {
             userCommands: [],
             isRefreshing: false,
             isUpdatingStatusMessage: false,
+            isFABOpen: false,
         }
 
         this.navigateToExecuteUserCommandsModal = this.navigateToExecuteUserCommandsModal.bind(this)
@@ -59,6 +57,7 @@ class MainScreen extends React.Component<Props, State> {
         this.getAllStatusMessages = this.getAllStatusMessages.bind(this)
         this.getAllUserCommands = this.getAllUserCommands.bind(this)
         this.onUpdateStatusMessage = this.onUpdateStatusMessage.bind(this)
+        this.executeUserCommands = this.executeUserCommands.bind(this)
     }
 
     async componentDidMount() {
@@ -116,6 +115,15 @@ class MainScreen extends React.Component<Props, State> {
         this.setState({ isUpdatingStatusMessage: false })
     }
 
+    async executeUserCommands(userCommand: CommandType) {
+        try {
+            await executeUserCommand(userCommand, new Date())
+            await this.getAllUserCommands()
+        } catch (e) {
+            console.log('Failed with error:', JSON.stringify(e))
+        }
+    }
+
     render() {
         const mostRecentStatus =
             this.state.statuses &&
@@ -148,10 +156,41 @@ class MainScreen extends React.Component<Props, State> {
                     rightOpenValue={-75}
                 />
 
-                <FAB icon="add" color="white" style={styles.fab} onPress={this.navigateToExecuteUserCommandsModal} />
+                <FAB.Group
+                    color="white"
+                    open={this.state.isFABOpen}
+                    icon={this.state.isFABOpen ? 'close' : 'add'}
+                    style={styles.fab}
+                    theme={theme}
+                    actions={[
+                        {
+                            icon: 'play-arrow',
+                            style: { backgroundColor: 'green' },
+                            label: 'Start',
+                            onPress: () => this.executeUserCommands(CommandType.START),
+                        },
+                        {
+                            icon: 'stop',
+                            style: { backgroundColor: 'red' },
+                            label: 'Stopp',
+                            onPress: () => this.executeUserCommands(CommandType.STOP),
+                        },
+                        { icon: 'today', label: 'Legg til', onPress: this.navigateToExecuteUserCommandsModal },
+                    ]}
+                    onStateChange={({ open }) => this.setState({ isFABOpen: open })}
+                />
             </View>
         )
     }
+}
+
+const theme: ThemeShape = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        accent: '#3399FF',
+        backdrop: '',
+    },
 }
 
 export default MainScreen
