@@ -28,7 +28,6 @@ type Props = {
 }
 
 const UserCommandListItem = ({ userCommand }: Props) => {
-    console.log(userCommand)
     const typeDict: [string, string] =
         userCommand.type === CommandType.START
             ? ['green', 'Ovnen skrus PÅ']
@@ -44,17 +43,16 @@ const UserCommandListItem = ({ userCommand }: Props) => {
             : userCommand.status === CommandStatus.FAILED
             ? ['red', 'Melding feitled']
             : userCommand.status === CommandStatus.WAITING
-                ? ['yellow', 'Melding venter på å bli sendt']
-                : ['blue', 'Melding prosseseres']
+            ? ['yellow', 'Melding venter på å bli sendt']
+            : ['blue', 'Melding prosseseres']
 
-    return <Card style={[styles.container, { borderLeftColor: typeDict[0] }]}>
+    return (
+        <Card style={[styles.container, { borderLeftColor: typeDict[0] }]}>
             <Card.Content style={{ paddingBottom: 3 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1 }}>
                         <Text>{typeDict[1]}</Text>
-                        <Text>
-                            {(userCommand.temperature && `Ny temperartur: ${userCommand.temperature}`) || ''}
-                        </Text>
+                        <Text>{(userCommand.temperature && `Ny temperartur: ${userCommand.temperature}`) || ''}</Text>
                     </View>
                     <Text>
                         {moment(userCommand.startTime)
@@ -64,17 +62,27 @@ const UserCommandListItem = ({ userCommand }: Props) => {
                 </View>
                 <View style={styles.bottomContainer}>
                     <Text style={styles.text}>
-                        Dato: {moment(userCommand.startTime)
+                        Dato:{' '}
+                        {moment(userCommand.startTime)
                             .utcOffset('+0200')
                             .format('DD.MM.YYYY')}
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ width: 8, height: 8, borderRadius: 8 / 2, backgroundColor: statusDict[0], marginRight: 6 }} />
+                        <View
+                            style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: 8 / 2,
+                                backgroundColor: statusDict[0],
+                                marginRight: 6,
+                            }}
+                        />
                         <Text style={styles.text}>{statusDict[1]}</Text>
                     </View>
                 </View>
             </Card.Content>
         </Card>
+    )
 }
 
 export default UserCommandListItem

@@ -3,9 +3,11 @@ import { RefreshControl, StyleSheet, TouchableOpacity, View } from 'react-native
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { DefaultTheme, FAB, IconButton, ThemeShape } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
+import moment from 'moment-timezone'
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
 import { CommandType, StatusMessage, UserCommand } from './types'
+import UserCommandListHeader from './components/UserCommandListHeader'
 import UserCommandListItem from './components/UserCommandListItem'
 import StatusHeader from './components/StatusHeader'
 
@@ -34,7 +36,7 @@ type Props = {
 
 type State = {
     statuses: StatusMessage[] | null
-    userCommands: UserCommand[] | null
+    userCommands: UserCommand[]
     isRefreshing: boolean
     isUpdatingStatusMessage: boolean
     isFABOpen: boolean
@@ -100,7 +102,7 @@ class MainScreen extends React.Component<Props, State> {
     }
 
     onRefresh() {
-        this.setState({ isUpdatingStatusMessage: true })
+        this.setState({ isRefreshing: true })
         this.getAllUserCommands()
         this.setState({ isRefreshing: false })
     }
@@ -129,6 +131,10 @@ class MainScreen extends React.Component<Props, State> {
             this.state.statuses &&
             this.state.statuses.reduce((prev, current) => (prev.createdTime < current.createdTime ? current : prev))
 
+        const sortedUserCommands = this.state.userCommands.sort((a, b) =>
+            moment.utc(a.startTime).diff(moment.utc(b.startTime)),
+        )
+
         return (
             <View style={styles.container}>
                 <StatusHeader
@@ -138,11 +144,13 @@ class MainScreen extends React.Component<Props, State> {
                 />
 
                 <SwipeListView
-                    useFlatList
+                    useSectionList
                     disableRightSwipe
-                    refreshControl={<RefreshControl refreshing={this.state.isRefreshing} onRefresh={this.onRefresh} />}
-                    data={this.state.userCommands}
                     keyExtractor={(item: UserCommand) => '' + item.id}
+                    refreshControl={<RefreshControl refreshing={this.state.isRefreshing} onRefresh={this.onRefresh} />}
+                    sections={createSections(sortedUserCommands)}
+                    renderSectionHeader={({ section }: any) => <UserCommandListHeader commandStatus={section.title} />}
+                    stickySectionHeadersEnabled={false}
                     renderItem={({ item }: { item: UserCommand }) => <UserCommandListItem userCommand={item} />}
                     renderHiddenItem={(data: any) => {
                         return (
@@ -182,6 +190,31 @@ class MainScreen extends React.Component<Props, State> {
             </View>
         )
     }
+}
+
+type UserCommandsSections = Array<{ title: string; data: UserCommand[] }>
+
+const createSections = (data: UserCommand[]): UserCommandsSections => {
+    const sortedUserCommandsByStatus: any = data.reduce(
+        (current: any, userCommand: UserCommand) => {
+            const key = userCommand.status
+
+            if (current[key] === undefined) current[key] = []
+
+            current[key].push(userCommand)
+            return current
+        },
+        {},
+    )
+
+    const sections: UserCommandsSections = Object.keys(sortedUserCommandsByStatus)
+        .map((status: string) => ({
+            title: status,
+            data: sortedUserCommandsByStatus[status],
+        }))
+        .reverse()
+
+    return sections
 }
 
 const theme: ThemeShape = {
