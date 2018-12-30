@@ -4,6 +4,7 @@ import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { DefaultTheme, FAB, IconButton, ThemeShape } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import moment from 'moment-timezone'
+import Push from 'appcenter-push';
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
 import { CommandType, StatusMessage, UserCommand } from './types'
@@ -63,6 +64,14 @@ class MainScreen extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
+        await Push.setListener({
+            onPushNotificationReceived: async () => {
+                // Use extra props in pushNotification to determine which list to update
+                await this.getAllStatusMessages()
+                await this.getAllUserCommands()
+            }
+        });
+
         await this.getAllStatusMessages()
         await this.getAllUserCommands()
     }
