@@ -1,4 +1,5 @@
-import Config from 'react-native-config'
+import { AsyncStorage } from 'react-native'
+
 import { CommandType, StatusMessage, UserCommand } from '../types'
 
 const baseUrl = 'https://api-walas.herokuapp.com'
@@ -10,13 +11,18 @@ export const endpoints = {
 }
 
 type ResponseObject = {
+    authorized: boolean
     success: boolean
     json: any
 }
 
 const baseFetch = async (url: string, settings: any): Promise<any> => {
     try {
+        const username = await AsyncStorage.getItem('@Wallas:USER_NAME')
+        const password = await AsyncStorage.getItem('@Wallas:USER_PASS')
+
         const responseObj: ResponseObject = {
+            authorized: false,
             success: false,
             json: {},
         }
@@ -24,10 +30,11 @@ const baseFetch = async (url: string, settings: any): Promise<any> => {
             ...settings,
             headers: {
                 ...settings.headers,
-                Authorization: `${Config.API_USERNAME} ${Config.API_TOKEN}`,
+                Authorization: `${username} ${password}`,
             },
         })
         responseObj['json'] = await jsonResponse(response)
+        responseObj['authorized'] = response.status !== 401
         if ([200, 201, 204].includes(response.status)) {
             responseObj['success'] = true
         }
@@ -49,6 +56,18 @@ const jsonResponse = async (response: Response) => {
             status: response.status,
         }
     }
+}
+
+export function checkIfAuthorized(): Promise<boolean> {
+    const url = endpoints.userCommands()
+
+    return baseFetch(url, {
+        method: 'GET',
+    }).then(
+        (responseObj: ResponseObject): boolean => {
+            return responseObj.authorized
+        },
+    )
 }
 
 export function fetchAllStatusMessages(): Promise<StatusMessage[]> {
