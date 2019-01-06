@@ -16,6 +16,5 @@ export const createSections = (data: UserCommand[]): UserCommandsSections => {
         title: status,
         data: sortedUserCommandsByStatus[status],
     }))
-    console.log(sections)
     return sections
 }
