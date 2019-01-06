@@ -125,6 +125,7 @@ class MainScreen extends React.Component<Props, State> {
     onRefresh() {
         this.setState({ isRefreshing: true })
         this.getAllUserCommands()
+        this.getAllStatusMessages()
         this.setState({ isRefreshing: false })
     }
 
