@@ -48,14 +48,13 @@ const StatusHeader = ({ status, isUpdating, updateStatusMessage }: Props) => {
                                 .format('dddd [kl.] HH:mm, DD.MM')}
                     </Text>
                     <Button
+                        children="Oppdater"
                         mode="text"
                         color="#3399FF"
                         icon="update"
                         loading={isUpdating}
                         onPress={updateStatusMessage}
-                    >
-                        Oppdater
-                    </Button>
+                    />
                 </View>
             </Card.Content>
         </Card>

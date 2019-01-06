@@ -15,8 +15,8 @@ const BaseDialog = (props: Props) => {
             <Dialog.Title>{props.title}</Dialog.Title>
             <Dialog.Content>{props.children}</Dialog.Content>
             <Dialog.Actions>
-                <Button onPress={props.hideDialog}>Avbryt</Button>
-                <Button onPress={props.executeCommand}>Send</Button>
+                <Button children="Avbryt" onPress={props.hideDialog} />
+                <Button children="Send" onPress={props.executeCommand} />
             </Dialog.Actions>
         </Dialog>
     )

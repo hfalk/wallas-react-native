@@ -119,10 +119,9 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
                             mode="text"
                             color="#3399FF"
                             icon={this.state.isDatePickerVisible ? 'save' : 'send'}
+                            children={this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
                             onPress={this.executeUserCommands}
-                        >
-                            {this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
-                        </Button>
+                        />
                     </Card.Content>
                 </Card>
             </View>

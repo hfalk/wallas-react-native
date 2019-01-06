@@ -18,6 +18,7 @@ const ButtonGroup = ({ onPress, selectedIndex, buttons }: ButtonProps) => {
                 return (
                     <Button
                         key={index}
+                        children={value}
                         mode="outlined"
                         color="#3399FF"
                         style={[
@@ -33,9 +34,7 @@ const ButtonGroup = ({ onPress, selectedIndex, buttons }: ButtonProps) => {
                             },
                         ]}
                         onPress={() => onPress(index)}
-                    >
-                        {value}
-                    </Button>
+                    />
                 )
             })}
         </View>
