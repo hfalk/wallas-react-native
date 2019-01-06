@@ -76,6 +76,9 @@ class MainScreen extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
+        await this.getAllStatusMessages()
+        await this.getAllUserCommands()
+
         await Push.setListener({
             onPushNotificationReceived: async () => {
                 // Use extra props in pushNotification to determine which list to update
@@ -83,9 +86,6 @@ class MainScreen extends React.Component<Props, State> {
                 await this.getAllUserCommands()
             },
         })
-
-        await this.getAllStatusMessages()
-        await this.getAllUserCommands()
     }
 
     async getAllStatusMessages() {
