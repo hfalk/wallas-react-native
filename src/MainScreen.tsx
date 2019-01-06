@@ -8,7 +8,7 @@ import Push from 'appcenter-push'
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
 import { CommandType, StatusMessage, UserCommand } from './types'
-import { temperatures, temperatureItems } from './base'
+import { temperatures, temperatureItems, colors } from './base'
 import { createSections } from './utils/CreateUserCommandsSections'
 import UserCommandListHeader from './components/UserCommandListHeader'
 import UserCommandListItem from './components/UserCommandListItem'
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#F8F8F8',
+        backgroundColor: colors.lightGrey,
     },
     fab: {
         padding: 16,
@@ -253,7 +253,7 @@ const theme: ThemeShape = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        accent: '#3399FF',
+        accent: colors.blue,
         backdrop: '',
     },
 }

@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { colors } from '../base'
 
 import { CommandStatus } from '../types'
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#3399FF',
+        backgroundColor: colors.blue,
         alignSelf: 'flex-start',
         marginTop: 12,
         marginBottom: 6,

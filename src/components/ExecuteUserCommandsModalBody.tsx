@@ -7,11 +7,6 @@ import baseStyles from '../base'
 import ButtonGroup from './ButtonGroup'
 
 const styles = StyleSheet.create({
-    line: {
-        width: '100%',
-        borderBottomColor: '#D9D9D9',
-        borderBottomWidth: 1,
-    },
     card: {
         width: '100%',
         borderRadius: 0,

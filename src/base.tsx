@@ -8,6 +8,11 @@ export const temperatureItems = (temperatures: Array<number>) =>
         return <Picker.Item key={value} value={value} label={value + ' °C'} />
     })
 
+export const colors = {
+    blue: '#3399FF',
+    lightGrey: '#F8F8F8'
+}
+
 const text = {
     defaults: {
         backgroundColor: 'transparent',

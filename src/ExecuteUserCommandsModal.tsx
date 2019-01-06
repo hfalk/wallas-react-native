@@ -3,7 +3,7 @@ import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { StyleSheet, View } from 'react-native'
 import { Button, Card } from 'react-native-paper'
 
-import { temperatures, temperatureItems } from './base'
+import { temperatures, temperatureItems, colors } from './base'
 import { CommandType } from './types'
 import { executeUserCommand } from './api/UserCommands'
 import ExecuteUserCommandsModalBody from './components/ExecuteUserCommandsModalBody'
@@ -14,12 +14,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#F8F8F8',
-    },
-    line: {
-        width: '100%',
-        borderBottomColor: '#D9D9D9',
-        borderBottomWidth: 1,
+        backgroundColor: colors.lightGrey,
     },
 })
 
@@ -117,8 +112,6 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
                     toggleDatePicker={this.toggleDatePicker}
                     setCommandOptions={this.setCommandOptions}
                 />
-
-                <View style={styles.line} />
 
                 <Card>
                     <Card.Content style={{ paddingBottom: 18 }}>

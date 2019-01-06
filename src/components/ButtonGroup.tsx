@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { View } from 'react-native'
 import { Button } from 'react-native-paper'
+import { colors } from '../base'
 
 type ButtonProps = {
     buttons: Array<string>
@@ -21,7 +22,7 @@ const ButtonGroup = ({ onPress, selectedIndex, buttons }: ButtonProps) => {
                         color="#3399FF"
                         style={[
                             { borderRadius: 0 },
-                            { backgroundColor: isSelected ? 'white' : '#F8F8F8' },
+                            { backgroundColor: isSelected ? 'white' : colors.lightGrey },
                             index === buttons.length - 1 && {
                                 borderTopRightRadius: 4,
                                 borderBottomRightRadius: 4,
