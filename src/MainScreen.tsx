@@ -4,11 +4,12 @@ import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { DefaultTheme, FAB, IconButton, ThemeShape } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import moment from 'moment-timezone'
-import Push from 'appcenter-push';
+import Push from 'appcenter-push'
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
 import { CommandType, StatusMessage, UserCommand } from './types'
 import { temperatures, temperatureItems } from './base'
+import { createSections } from './utils/CreateUserCommandsSections'
 import UserCommandListHeader from './components/UserCommandListHeader'
 import UserCommandListItem from './components/UserCommandListItem'
 import StatusHeader from './components/StatusHeader'
@@ -80,8 +81,8 @@ class MainScreen extends React.Component<Props, State> {
                 // Use extra props in pushNotification to determine which list to update
                 await this.getAllStatusMessages()
                 await this.getAllUserCommands()
-            }
-        });
+            },
+        })
 
         await this.getAllStatusMessages()
         await this.getAllUserCommands()
@@ -168,7 +169,7 @@ class MainScreen extends React.Component<Props, State> {
             this.state.statuses.reduce((prev, current) => (prev.createdTime < current.createdTime ? current : prev))
 
         const sortedUserCommands = this.state.userCommands.sort((a, b) =>
-            moment.utc(a.startTime).diff(moment.utc(b.startTime)),
+            moment.utc(b.startTime).diff(moment.utc(a.startTime)),
         )
 
         return (
@@ -244,28 +245,6 @@ class MainScreen extends React.Component<Props, State> {
             </View>
         )
     }
-}
-
-type UserCommandsSections = Array<{ title: string; data: UserCommand[] }>
-
-const createSections = (data: UserCommand[]): UserCommandsSections => {
-    const sortedUserCommandsByStatus: any = data.reduce((current: any, userCommand: UserCommand) => {
-        const key = userCommand.status
-
-        if (current[key] === undefined) current[key] = []
-
-        current[key].push(userCommand)
-        return current
-    }, {})
-
-    const sections: UserCommandsSections = Object.keys(sortedUserCommandsByStatus)
-        .map((status: string) => ({
-            title: status,
-            data: sortedUserCommandsByStatus[status],
-        }))
-        .reverse()
-
-    return sections
 }
 
 const theme: ThemeShape = {
