@@ -1,4 +1,12 @@
-import { StyleSheet } from 'react-native'
+import React from 'react'
+import { Picker, StyleSheet } from 'react-native'
+
+export const temperatures = Array.from({ length: 16 }, (_, k) => 15 + k)
+
+export const temperatureItems = (temperatures: Array<number>) =>
+    temperatures.map(value => {
+        return <Picker.Item key={value} value={value} label={value + ' °C'} />
+    })
 
 const text = {
     defaults: {

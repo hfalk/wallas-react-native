@@ -3,13 +3,13 @@ import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { StyleSheet, View } from 'react-native'
 import { Button } from 'react-native-paper'
 
+import { temperatures, temperatureItems } from './base'
 import { CommandType } from './types'
 import { executeUserCommand } from './api/UserCommands'
 import ExecuteUserCommandsModalBody from './components/ExecuteUserCommandsModalBody'
 import FlatCard from './components/FlatCard'
 
 const userCommands = ['Start', 'Endre temp', 'Stop']
-const temperature = Array.from({ length: 16 }, (_, k) => 15 + k)
 
 const styles = StyleSheet.create({
     container: {
@@ -42,7 +42,7 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
 
         this.state = {
             chosenDate: new Date(),
-            chosenTemperature: temperature[0],
+            chosenTemperature: temperatures[0],
             isDatePickerVisible: true,
             isTemperatureVisible: true,
             commandoSelectedIndex: 0,
@@ -109,7 +109,7 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
         return (
             <View style={styles.container}>
                 <ExecuteUserCommandsModalBody
-                    temperature={temperature}
+                    temperatureItems={temperatureItems(temperatures)}
                     userCommands={userCommands}
                     chosenDate={this.state.chosenDate}
                     chosenTemperature={this.state.chosenTemperature}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { RefreshControl, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Picker, RefreshControl, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { DefaultTheme, FAB, IconButton, ThemeShape } from 'react-native-paper'
 import { SwipeListView } from 'react-native-swipe-list-view'
@@ -7,9 +7,11 @@ import moment from 'moment-timezone'
 
 import { deleteUserCommand, executeUserCommand, fetchAllStatusMessages, fetchAllUserCommands } from './api/UserCommands'
 import { CommandType, StatusMessage, UserCommand } from './types'
+import { temperatures, temperatureItems } from './base'
 import UserCommandListHeader from './components/UserCommandListHeader'
 import UserCommandListItem from './components/UserCommandListItem'
 import StatusHeader from './components/StatusHeader'
+import BaseDialog from './components/BaseDialog'
 
 const styles = StyleSheet.create({
     container: {
@@ -40,6 +42,9 @@ type State = {
     isRefreshing: boolean
     isUpdatingStatusMessage: boolean
     isFABOpen: boolean
+    isStartCommandDialogVisible: boolean
+    isStopCommandDialogVisible: boolean
+    chosenTemperature: number
 }
 
 class MainScreen extends React.Component<Props, State> {
@@ -52,6 +57,9 @@ class MainScreen extends React.Component<Props, State> {
             isRefreshing: false,
             isUpdatingStatusMessage: false,
             isFABOpen: false,
+            isStartCommandDialogVisible: false,
+            isStopCommandDialogVisible: false,
+            chosenTemperature: temperatures[0],
         }
 
         this.navigateToExecuteUserCommandsModal = this.navigateToExecuteUserCommandsModal.bind(this)
@@ -59,7 +67,10 @@ class MainScreen extends React.Component<Props, State> {
         this.getAllStatusMessages = this.getAllStatusMessages.bind(this)
         this.getAllUserCommands = this.getAllUserCommands.bind(this)
         this.onUpdateStatusMessage = this.onUpdateStatusMessage.bind(this)
-        this.executeUserCommands = this.executeUserCommands.bind(this)
+        this.executeUserCommand = this.executeUserCommand.bind(this)
+        this.toggleStartCommandDialog = this.toggleStartCommandDialog.bind(this)
+        this.toggleStopCommandDialog = this.toggleStopCommandDialog.bind(this)
+        this.setNewTemperature = this.setNewTemperature.bind(this)
     }
 
     async componentDidMount() {
@@ -117,13 +128,29 @@ class MainScreen extends React.Component<Props, State> {
         this.setState({ isUpdatingStatusMessage: false })
     }
 
-    async executeUserCommands(userCommand: CommandType) {
+    async executeUserCommand(userCommand: CommandType, temperature?: number) {
         try {
-            await executeUserCommand(userCommand, new Date())
+            userCommand === CommandType.START && this.toggleStartCommandDialog()
+            userCommand === CommandType.STOP && this.toggleStopCommandDialog()
+
+            await executeUserCommand(userCommand, new Date(), temperature)
             await this.getAllUserCommands()
+            await this.getAllStatusMessages()
         } catch (e) {
             console.log('Failed with error:', JSON.stringify(e))
         }
+    }
+
+    toggleStartCommandDialog() {
+        this.setState(prevState => ({ isStartCommandDialogVisible: !prevState.isStartCommandDialogVisible }))
+    }
+
+    toggleStopCommandDialog() {
+        this.setState(prevState => ({ isStopCommandDialogVisible: !prevState.isStopCommandDialogVisible }))
+    }
+
+    setNewTemperature(newTemperature: number) {
+        this.setState({ chosenTemperature: newTemperature })
     }
 
     render() {
@@ -175,17 +202,35 @@ class MainScreen extends React.Component<Props, State> {
                             icon: 'play-arrow',
                             style: { backgroundColor: 'green' },
                             label: 'Start',
-                            onPress: () => this.executeUserCommands(CommandType.START),
+                            onPress: this.toggleStartCommandDialog,
                         },
                         {
                             icon: 'stop',
                             style: { backgroundColor: 'red' },
                             label: 'Stopp',
-                            onPress: () => this.executeUserCommands(CommandType.STOP),
+                            onPress: this.toggleStopCommandDialog,
                         },
                         { icon: 'today', label: 'Legg til', onPress: this.navigateToExecuteUserCommandsModal },
                     ]}
                     onStateChange={({ open }) => this.setState({ isFABOpen: open })}
+                />
+
+                <BaseDialog
+                    visible={this.state.isStartCommandDialogVisible}
+                    hideDialog={this.toggleStartCommandDialog}
+                    executeCommand={() => this.executeUserCommand(CommandType.START, this.state.chosenTemperature)}
+                    title={'Send start ovn melding'}
+                >
+                    <Picker selectedValue={this.state.chosenTemperature} onValueChange={this.setNewTemperature}>
+                        {temperatureItems(temperatures)}
+                    </Picker>
+                </BaseDialog>
+
+                <BaseDialog
+                    visible={this.state.isStopCommandDialogVisible}
+                    hideDialog={this.toggleStopCommandDialog}
+                    executeCommand={() => this.executeUserCommand(CommandType.STOP)}
+                    title={'Send stopp ovn melding'}
                 />
             </View>
         )
@@ -195,17 +240,14 @@ class MainScreen extends React.Component<Props, State> {
 type UserCommandsSections = Array<{ title: string; data: UserCommand[] }>
 
 const createSections = (data: UserCommand[]): UserCommandsSections => {
-    const sortedUserCommandsByStatus: any = data.reduce(
-        (current: any, userCommand: UserCommand) => {
-            const key = userCommand.status
+    const sortedUserCommandsByStatus: any = data.reduce((current: any, userCommand: UserCommand) => {
+        const key = userCommand.status
 
-            if (current[key] === undefined) current[key] = []
+        if (current[key] === undefined) current[key] = []
 
-            current[key].push(userCommand)
-            return current
-        },
-        {},
-    )
+        current[key].push(userCommand)
+        return current
+    }, {})
 
     const sections: UserCommandsSections = Object.keys(sortedUserCommandsByStatus)
         .map((status: string) => ({

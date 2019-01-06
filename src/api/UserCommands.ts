@@ -9,8 +9,17 @@ export const endpoints = {
     userCommand: (id: Number) => `${baseUrl}/commands/${id}`,
 }
 
+type ResponseObject = {
+    success: boolean
+    json: any
+}
+
 const baseFetch = async (url: string, settings: any): Promise<any> => {
     try {
+        const responseObj: ResponseObject = {
+            success: false,
+            json: {},
+        }
         const response = await fetch(url, {
             ...settings,
             headers: {
@@ -18,8 +27,8 @@ const baseFetch = async (url: string, settings: any): Promise<any> => {
                 Authorization: `${Config.API_USERNAME} ${Config.API_TOKEN}`,
             },
         })
-        const responseObj = await jsonResponse(response)
-        if (response.status == 200) {
+        responseObj['json'] = await jsonResponse(response)
+        if ([200, 201, 204].includes(response.status)) {
             responseObj['success'] = true
         }
         return responseObj
@@ -27,7 +36,7 @@ const baseFetch = async (url: string, settings: any): Promise<any> => {
         console.warn(`[baseFetch] [URL: ${url}]`, error)
         return {
             success: false,
-            message: error,
+            json: { error: error },
         }
     }
 }
@@ -48,8 +57,8 @@ export function fetchAllStatusMessages(): Promise<StatusMessage[]> {
     return baseFetch(url, {
         method: 'GET',
     }).then(
-        (statuses: StatusMessage[]): StatusMessage[] => {
-            return statuses
+        (responseObj: ResponseObject): StatusMessage[] => {
+            return responseObj.json
         },
     )
 }
@@ -60,8 +69,8 @@ export function fetchAllUserCommands(): Promise<UserCommand[]> {
     return baseFetch(url, {
         method: 'GET',
     }).then(
-        (userCommand: UserCommand[]): UserCommand[] => {
-            return userCommand
+        (responseObj: ResponseObject): UserCommand[] => {
+            return responseObj.json
         },
     )
 }

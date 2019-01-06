@@ -4,7 +4,7 @@ import { ButtonGroup } from 'react-native-elements'
 import DatePicker from 'react-native-date-picker'
 
 import FlatCard from './FlatCard'
-import baseStyles from '../base-style'
+import baseStyles from '../base'
 
 const styles = StyleSheet.create({
     line: {
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
-    temperature: Array<number>
+    temperatureItems: Array<React.ReactNode>
     userCommands: Array<string>
     chosenDate: Date
     chosenTemperature: number
@@ -29,10 +29,6 @@ type Props = {
 }
 
 const ExecuteUserCommandsModalBody = (props: Props) => {
-    let temperatureItems = props.temperature.map(value => {
-        return <Picker.Item key={value} value={value} label={value + ' °C'} />
-    })
-
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
             <FlatCard>
@@ -76,7 +72,7 @@ const ExecuteUserCommandsModalBody = (props: Props) => {
                         style={{ height: 50, width: 100 }}
                         onValueChange={props.setTemperature}
                     >
-                        {temperatureItems}
+                        {props.temperatureItems}
                     </Picker>
                 </>
             ) : null}
