@@ -1,16 +1,20 @@
 import * as React from 'react'
 import { Text, Picker, Switch, View, ScrollView, StyleSheet } from 'react-native'
-import { ButtonGroup } from 'react-native-elements'
+import { Card } from 'react-native-paper'
 import DatePicker from 'react-native-date-picker'
 
-import FlatCard from './FlatCard'
 import baseStyles from '../base'
+import ButtonGroup from './ButtonGroup'
 
 const styles = StyleSheet.create({
     line: {
         width: '100%',
         borderBottomColor: '#D9D9D9',
         borderBottomWidth: 1,
+    },
+    card: {
+        width: '100%',
+        borderRadius: 0,
     },
 })
 
@@ -31,32 +35,35 @@ type Props = {
 const ExecuteUserCommandsModalBody = (props: Props) => {
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-            <FlatCard>
-                <ButtonGroup
-                    onPress={props.setCommandOptions}
-                    selectedIndex={props.commandoSelectedIndex}
-                    buttons={props.userCommands}
-                />
-            </FlatCard>
-
-            <View style={[styles.line, { width: '90%' }]} />
-
-            <FlatCard showBottomLine>
-                <Text style={baseStyles.mediumLarge}>Dato</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 6, paddingLeft: 18 }}>
-                    <Text style={baseStyles.mediumText}>Med en gang</Text>
-                    <Switch
-                        style={{ marginLeft: 18, flex: 1 }}
-                        value={!props.isDatePickerVisible}
-                        onValueChange={props.toggleDatePicker}
+            <Card style={styles.card}>
+                <Card.Content>
+                    <ButtonGroup
+                        onPress={props.setCommandOptions}
+                        selectedIndex={props.commandoSelectedIndex}
+                        buttons={props.userCommands}
                     />
-                </View>
-            </FlatCard>
+                </Card.Content>
+            </Card>
+
+            <Card style={styles.card}>
+                <Card.Content>
+                    <Text style={baseStyles.mediumLarge}>Dato</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 6, paddingLeft: 18 }}>
+                        <Text style={baseStyles.mediumText}>Med en gang</Text>
+                        <Switch
+                            style={{ marginLeft: 18, flex: 1 }}
+                            value={!props.isDatePickerVisible}
+                            onValueChange={props.toggleDatePicker}
+                        />
+                    </View>
+                </Card.Content>
+            </Card>
             {props.isDatePickerVisible ? (
                 <DatePicker
-                    minimumDate={new Date()}
+                    locale="no"
+                    fadeToColor="#00000000"
                     minuteInterval={15}
-                    locale={'no'}
+                    minimumDate={new Date()}
                     date={props.chosenDate}
                     onDateChange={props.setDate}
                 />
@@ -64,9 +71,11 @@ const ExecuteUserCommandsModalBody = (props: Props) => {
 
             {props.isTemperatureVisible ? (
                 <>
-                    <FlatCard showBottomLine style={{ flexDirection: 'row' }}>
-                        <Text style={[baseStyles.mediumLarge, { flex: 1 }]}>Temperatur</Text>
-                    </FlatCard>
+                    <Card style={styles.card}>
+                        <Card.Content>
+                            <Text style={baseStyles.mediumLarge}>Temperatur</Text>
+                        </Card.Content>
+                    </Card>
                     <Picker
                         selectedValue={props.chosenTemperature}
                         style={{ height: 50, width: 100 }}

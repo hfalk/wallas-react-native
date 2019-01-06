@@ -1,13 +1,12 @@
 import React from 'react'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button, Card } from 'react-native-paper'
 
 import { temperatures, temperatureItems } from './base'
 import { CommandType } from './types'
 import { executeUserCommand } from './api/UserCommands'
 import ExecuteUserCommandsModalBody from './components/ExecuteUserCommandsModalBody'
-import FlatCard from './components/FlatCard'
 
 const userCommands = ['Start', 'Endre temp', 'Stop']
 
@@ -71,9 +70,7 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
     }
 
     setCommandOptions(index: number) {
-        console.log(index)
-        const isTemperatureVisible = index in [0, 2]
-        console.log(isTemperatureVisible)
+        const isTemperatureVisible = [0, 1].includes(index)
         this.setState({
             isTemperatureVisible,
             commandoSelectedIndex: index,
@@ -91,8 +88,7 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
                 : CommandType.CHANGE
 
         try {
-            const response = await executeUserCommand(userCommand, this.state.chosenDate, this.state.chosenTemperature)
-            console.log(response)
+            await executeUserCommand(userCommand, this.state.chosenDate, this.state.chosenTemperature)
         } catch (e) {
             console.log('Failed with error:', JSON.stringify(e))
         }
@@ -124,16 +120,18 @@ class ExecuteUserCommandsModal extends React.Component<Props, State> {
 
                 <View style={styles.line} />
 
-                <FlatCard style={{ alignItems: 'center' }}>
-                    <Button
-                        mode="text"
-                        color="#3399FF"
-                        icon={this.state.isDatePickerVisible ? 'save' : 'send'}
-                        onPress={this.executeUserCommands}
-                    >
-                        {this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
-                    </Button>
-                </FlatCard>
+                <Card>
+                    <Card.Content style={{ paddingBottom: 18 }}>
+                        <Button
+                            mode="text"
+                            color="#3399FF"
+                            icon={this.state.isDatePickerVisible ? 'save' : 'send'}
+                            onPress={this.executeUserCommands}
+                        >
+                            {this.state.isDatePickerVisible ? 'Lagre' : 'Send'}
+                        </Button>
+                    </Card.Content>
+                </Card>
             </View>
         )
     }

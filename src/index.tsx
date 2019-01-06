@@ -16,7 +16,7 @@ const RootStack = createStackNavigator(
         ExecuteUserCommands: {
             screen: ExecuteUserCommandsModal,
             navigationOptions: () => ({
-                title: `User Commands`,
+                title: `Send melding`,
             }),
         },
     },

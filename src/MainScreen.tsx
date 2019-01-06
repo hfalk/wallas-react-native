@@ -133,6 +133,7 @@ class MainScreen extends React.Component<Props, State> {
         try {
             this.setState({ isUpdatingStatusMessage: true })
             await executeUserCommand(CommandType.STATUS, new Date())
+            this.getAllUserCommands()
         } catch (e) {
             console.log('Failed with error:', JSON.stringify(e))
         }
