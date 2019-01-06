@@ -200,6 +200,7 @@ class MainScreen extends React.Component<Props, State> {
                             </View>
                         )
                     }}
+                    ListFooterComponent={<View style={{ padding: 48 }} />}
                     rightOpenValue={-75}
                 />
 
